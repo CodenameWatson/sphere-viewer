@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Drop Scroll Animation with Fading Words</title>
+        <style>
+            body {
+                margin: 0;
+                background-color: #00a651;
+                font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+                font-weight: 400;
+                height: 100%;
+                color: white;
+            }
+
+            .section {
+                font-size: 3rem;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                opacity: 1;
+            }
+
+            #animate {
+                position: relative;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                min-height: 100vh;
+                flex-direction: column;
+                padding-top: 10vh;
+                z-index: 1;
+            }
+
+            #drop {
+                font-size: 6rem;
+                color: #fff;
+                z-index: 2;
+                position: relative;
+                text-shadow: 1px 1px 0 #ccc, 2px 2px 0 #999, 3px 3px 0 #666;
+            }
+
+            #droplet {
+                position: absolute;
+                font-size: 2rem;
+                background: white;
+                color: black;
+                padding: 10px 20px;
+                border-radius: 50%;
+                opacity: 0;
+                transform: scale(0.5);
+                z-index: 1;
+            }
+
+            #mask {
+                font-size: 6rem;
+                color: #D2D2D2;
+                position: absolute;
+                top: 0;
+                z-index: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="section">Something</div>
+        <div class="section">big</div>
+        <div class="section">is about to</div>
+
+        <div id="animate">
+            <h1 id="drop">drop</h1>
+            <div id="droplet">droplet</div>
+            <div id="mask"></div>
+        </div>
+
+        <div class="section" style="height: 1000px;"></div>
+
+        <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+        <script
+            src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+        <script>
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Fade out each top word on scroll 
+            gsap.utils.toArray(".section").forEach(section => {
+                gsap.fromTo(
+                    section,
+                    { opacity: 1 },
+                    {
+                        opacity: 0,
+                        ease: "power1.out",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top 10%",
+                            end: "bottom top",
+                            scrub: true
+                        }
+                    }
+                );
+            });
+
+            // Set initial state of droplet
+            gsap.set("#droplet", { y: -400, opacity: 0, scale: 0.5 });
+
+            // Droplet animation + drop fade out
+            gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#animate",
+                    start: "top center",
+                    end: "bottom center",
+                    scrub: true,
+                    pin: true,
+                    markers: false
+                },
+                defaults: { ease: "power2.inOut" }
+            })
+                .to("#droplet", { opacity: 1, duration: 0.25 })
+                .to("#droplet", { y: 0, duration: 1 })
+                .to("#droplet", { y: 100, scale: 10, duration: 1.5 })
+                .to("#drop", { opacity: 0, duration: 0.5 }, "<");
+        </script>
+    </body>
+
+</html>

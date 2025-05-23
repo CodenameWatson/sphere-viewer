@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>Scroll-Based Intro Animation</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #00a651;
+        font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+        font-weight: 400;
+        height: 100%;
+        overflow: hidden;
+        color: white;
+      }
+
+      .container {
+        height: 100vh;
+        overflow-y: scroll;
+        scroll-behavior: smooth;
+        position: relative;
+      }
+
+      .spacer {
+        height: 5000px;
+      }
+
+      .fixed-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        pointer-events: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+        z-index: 100;
+      }
+
+      .word {
+        font-size: 4rem;
+        position: absolute;
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      #droplet {
+        position: absolute;
+        font-size: 2rem;
+        background: white;
+        color: black;
+        padding: 10px 20px;
+        border-radius: 50%;
+        opacity: 0;
+        transform: translateY(-200px) scale(0.5);
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="container" id="scroll-container">
+      <div class="fixed-layer">
+        <div id="word1" class="word">Something</div>
+        <div id="word2" class="word">big</div>
+        <div id="word3" class="word">is about to</div>
+        <div id="word4" class="word">drop</div>
+        <div id="droplet">droplet</div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+
+    <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+    <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".spacer",
+          scroller: "#scroll-container",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true
+        }
+      });
+
+      tl
+        .to("#word1", { opacity: 1, scale: 1, duration: 1 })
+        .to("#word1", { opacity: 0, scale: 0.5, duration: 0.5 })
+        .to("#word2", { opacity: 1, scale: 1, duration: 1 })
+        .to("#word2", { opacity: 0, scale: 0.5, duration: 0.5 })
+        .to("#word3", { opacity: 1, scale: 1, duration: 1 })
+        .to("#word3", { opacity: 0, scale: 0.5, duration: 0.5 })
+        .to("#word4", { opacity: 1, scale: 1, duration: 1 })
+        .fromTo("#droplet", { opacity: 0, y: -200, scale: 0.5 }, { opacity: 1, y: 100, scale: 6, duration: 2 });
+    </script>
+
+  </body>
+
+</html>
