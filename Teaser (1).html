@@ -1,138 +1,173 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Teaser banner</title>
-<style>
-	body *{min-height:1px;}
-#container{
-	background-color: #00a651;
-	color:  #fff;
-	font-family: 'Inter', Helvetica, Arial, sans-serif !important;
-    font-weight: 400;
-}
-.section{
-	position: relative;
-	font-size: 300%;
-	align-items:center;
-	display:flex;
-	flex-direction:row;
-	min-height:70vh;
-	justify-content:center;
-	text-align:center;
-	padding-top:9px;
-	max-height:100%;	
-}
+<html lang="en">
 
-.pin-spacer{
-	z-index: auto; 
-	float: none; 
-	flex-shrink: 1; 
-	display: block; 
-	margin: 0px 0px 48px; 
-	inset: auto; 
-	position: relative; 
-	overflow: visible;
-	box-sizing: border-box; 
-	width: 1195px; 
-	height: 312px; 
-	padding: 0px;
-}
+	<head>
+		<meta charset="UTF-8">
+		<title>Teaser banner</title>
+		<style>
+			body * {
+				min-height: 1px;
+			}
 
-#droplet{
-	opacity: 1;
-	color: #000;	
-}
+			#container {
+				background-color: #00a651;
+				color: #fff;
+				font-family: 'Inter', Helvetica, Arial, sans-serif !important;
+				font-weight: 400;
+			}
 
-#animate{
-	align-items:center;
-	display:flex;
-	flex-direction:row;
-	min-height:40vh;
-	justify-content:center;
-	text-align:center;
-	padding-top:120px;
-	max-height:100%;
-}
-#drop{
-	font-size:100px;
-	transform: translate(0px, 0px); 
-	inset: 0px auto auto 0px; 
-	margin: 0px; 
-	max-width: 1194.7px; 
-	width: 1194.7px; 
-	max-height: 312px; 
-	height: 312px; 
-	padding: 0px;
-	color: #fff;
-}
-#mask{
-	font-size:100px;
-	transform: translate(0px, -332px); 
-	inset: 0px auto auto 0px; 
-	margin: 0px; 
-	max-width: 1194.7px; 
-	width: 1194.7px; 
-	max-height: 312px; 
-	height: 312px; 
-	padding: 0px;
-	color: #D2D2D2;
-	
-}
+			.section {
+				position: relative;
+				font-size: 300%;
+				align-items: center;
+				display: flex;
+				flex-direction: row;
+				min-height: 70vh;
+				justify-content: center;
+				text-align: center;
+				padding-top: 9px;
+				max-height: 100%;
+			}
 
-@media all{
-.ct-div-block{
-	display:flex;
-	flex-wrap:nowrap;
-	flex-direction:column;
-	align-items:flex-start;
-	}
-}
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
-.ct-div-block,.ct-headline{
-	max-width:100%;
-	}
-}
-</style>
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<span style="display:block; height: 200px; background-color: #00a450;"></span>
-<div id="container">
-	<div id="frame1" class="section">Something</div>
-	<div id="frame2" class="section">big</div>
-	<div id="frame3" class="section">is about to</div>		
-	<div id="animate" class="ct-div-block">
-		<div class="pin-spacer">
-			<h1 id="drop" class="ct-headline ">drop</h1>
-			<div id="droplet">droplet</div>
-			<div id="mask" class="ct-headline">drop</div>
+			.pin-spacer {
+				z-index: auto;
+				float: none;
+				flex-shrink: 1;
+				display: block;
+				margin: 0px 0px 48px;
+				inset: auto;
+				position: relative;
+				overflow: visible;
+				box-sizing: border-box;
+				width: 1195px;
+				height: 312px;
+				padding: 0px;
+			}
+
+			#droplet {
+				opacity: 1;
+				color: #000;
+			}
+
+			#animate {
+				align-items: center;
+				display: flex;
+				flex-direction: row;
+				min-height: 40vh;
+				justify-content: center;
+				text-align: center;
+				padding-top: 120px;
+				max-height: 100%;
+			}
+
+			#drop {
+				font-size: 100px;
+				transform: translate(0px, 0px);
+				inset: 0px auto auto 0px;
+				margin: 0px;
+				max-width: 1194.7px;
+				width: 1194.7px;
+				max-height: 312px;
+				height: 312px;
+				padding: 0px;
+				color: #fff;
+			}
+
+			#mask {
+				font-size: 100px;
+				transform: translate(0px, -332px);
+				inset: 0px auto auto 0px;
+				margin: 0px;
+				max-width: 1194.7px;
+				width: 1194.7px;
+				max-height: 312px;
+				height: 312px;
+				padding: 0px;
+				color: #D2D2D2;
+
+			}
+
+			@media all {
+				.ct-div-block {
+					display: flex;
+					flex-wrap: nowrap;
+					flex-direction: column;
+					align-items: flex-start;
+				}
+			}
+
+			@media screen and (-ms-high-contrast: active),
+			(-ms-high-contrast: none) {
+
+				.ct-div-block,
+				.ct-headline {
+					max-width: 100%;
+				}
+			}
+
+			nav {
+				background: #222;
+				padding: 1em;
+				display: flex;
+				gap: 1em;
+			}
+
+			nav a {
+				color: #0bf;
+				text-decoration: none;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav>
+			<a href="Main.html">Home</a>
+			<a href="Center_fade.html">Center Fade</a>
+			<a href="fade_as_scroll.html">Fade Scroll</a>
+			<a href="scroll_fade.html">Scroll Fade</a>
+			<a href="Teaser (1).html">Teaser</a>
+		</nav>
+		<!-- partial:index.partial.html -->
+		<span
+			style="display:block; height: 200px; background-color: #00a450;"></span>
+		<div id="container">
+			<div id="frame1" class="section">Something</div>
+			<div id="frame2" class="section">big</div>
+			<div id="frame3" class="section">is about to</div>
+			<div id="animate" class="ct-div-block">
+				<div class="pin-spacer">
+					<h1 id="drop" class="ct-headline ">drop</h1>
+					<div id="droplet">droplet</div>
+					<div id="mask" class="ct-headline">drop</div>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>		
-<span style="display:block; height: 1000px;"></span>	
-<!-- partial -->
-<script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
-<script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
-<script>
-		gsap.set("#drop", {xPercent: 0, yPercent: 0}),
-		gsap.set("#droplet", { y:-600, opacity:0}),
+		<span style="display:block; height: 1000px;"></span>
+		<!-- partial -->
+		<script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+		<script
+			src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+		<script>
+			gsap.set("#drop", { xPercent: 0, yPercent: 0 }),
+				gsap.set("#droplet", { y: -600, opacity: 0 }),
 
-	gsap.timeline({
-		scrollTrigger: {
-			trigger: "#drop",
-			start: "top 30%",
-			end: "bottom 30%",
-			markers:true,
-			pin:"#animate",
-			scrub: true
-		},
-		defaults:{duration:1, ease:'power2.inOut'}
-	})
-.to("#droplet", {duration: .25, opacity:1})
-.to("#droplet", {duration:1, y:-100, ease: "power2.inOut"})
-.to("#droplet", {y:100, scale:10})
-.to("#droplet", {duration:.25, opacity:1})
-</script>
-</body>
+				gsap.timeline({
+					scrollTrigger: {
+						trigger: "#drop",
+						start: "top 30%",
+						end: "bottom 30%",
+						markers: true,
+						pin: "#animate",
+						scrub: true
+					},
+					defaults: { duration: 1, ease: 'power2.inOut' }
+				})
+					.to("#droplet", { duration: .25, opacity: 1 })
+					.to("#droplet", { duration: 1, y: -100, ease: "power2.inOut" })
+					.to("#droplet", { y: 100, scale: 10 })
+					.to("#droplet", { duration: .25, opacity: 1 })
+		</script>
+	</body>
+
 </html>
