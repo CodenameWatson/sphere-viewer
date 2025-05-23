@@ -8,17 +8,23 @@
             src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
         <style>
             body {
-                margin: 0 20% 0;
+                margin: 0 auto;
+                padding: 0 1em;
+                max-width: 1200px;
                 font-family: sans-serif;
                 background: #111;
                 color: white;
             }
 
+            /* Navigation bar styles */
             nav {
                 background: #222;
                 padding: 1em;
                 display: flex;
+                flex-wrap: wrap;
+                /* allow wrap on small screens */
                 gap: 1em;
+                justify-content: center;
             }
 
             nav a {
@@ -27,16 +33,44 @@
                 font-weight: bold;
             }
 
+            /* Section styling */
             section {
-                padding: 2em;
+                padding: 2em 0;
             }
 
+            /* Responsive model-viewer */
             model-viewer {
                 width: 100%;
                 height: 60vh;
                 margin-bottom: 4em;
                 background: #111;
                 border: 1px solid #444;
+            }
+
+            /* Mobile tweaks */
+            @media screen and (max-width: 768px) {
+                body {
+                    padding: 0 1em;
+                }
+
+                section {
+                    padding: 1em 0;
+                }
+
+                nav {
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                }
+
+                nav a {
+                    display: block;
+                    margin: 0.25em 0;
+                }
+
+                model-viewer {
+                    height: 50vh;
+                }
             }
         </style>
     </head>
@@ -56,8 +90,7 @@
             <model-viewer src="reflective-sphere.gltf" camera-controls
                 shadow-intensity="1" field-of-view="15deg" bounds="manual"
                 camera-target="0m 0m 0m" camera-orbit="0deg 75deg 20m"
-                min-camera-orbit="auto auto 2m"
-                max-camera-orbit="auto auto 100m" alt="Sphere model">
+                alt="Sphere model">
             </model-viewer>
 
             <h2>2 Cylinder Engine</h2>
@@ -82,7 +115,7 @@
                 shadow-intensity="1" alt="Gearbox model">
             </model-viewer>
         </section>
-        <script>
+        <!-- <script>
             document.querySelectorAll('model-viewer').forEach(viewer => {
                 let radius = 10;
 
@@ -96,7 +129,93 @@
                     viewer.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${radius.toFixed(2)}m`;
                 }, { passive: false });
             });
+        </script> -->
+        <!-- <script>
+            document.querySelectorAll('model-viewer').forEach(viewer => {
+                let radius = 10;
+                let lastTap = 0;
+                let zoomIn = true;
+
+                const applyZoom = () => {
+                    radius = zoomIn ? radius - 2 : radius + 2;
+                    radius = Math.max(2, Math.min(radius, 100));
+                    const orbit = viewer.getCameraOrbit();
+                    viewer.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${radius.toFixed(2)}m`;
+                    zoomIn = !zoomIn;
+                };
+
+                // Scroll-to-zoom for desktop
+                viewer.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    radius += e.deltaY * 0.01;
+                    radius = Math.max(2, Math.min(radius, 100));
+                    const orbit = viewer.getCameraOrbit();
+                    viewer.cameraOrbit = `${orbit.theta}rad ${orbit.phi}rad ${radius.toFixed(2)}m`;
+                }, { passive: false });
+
+                // Double-tap to zoom on mobile
+                viewer.addEventListener('touchend', (e) => {
+                    const now = new Date().getTime();
+                    if (now - lastTap < 300) {
+                        e.preventDefault();
+                        applyZoom();
+                    }
+                    lastTap = now;
+                });
+            });
+        </script> -->
+        <script>
+            document.querySelectorAll('model-viewer').forEach(viewer => {
+                let lastTap = 0;
+                let zoomIn = true;
+
+                // Initialize radius from cameraOrbit attribute
+                let radius = 10;
+                if (viewer.cameraOrbit) {
+                    const orbitParts = viewer.cameraOrbit.split(' ');
+                    if (orbitParts.length === 3) {
+                        radius = parseFloat(orbitParts[2].replace('m', '')) || 10;
+                    }
+                }
+
+                const applyZoom = () => {
+                    radius = zoomIn ? radius - 2 : radius + 2;
+                    radius = Math.max(2, Math.min(radius, 100));
+
+                    const orbitParts = viewer.cameraOrbit.split(' ');
+                    const theta = orbitParts[0] || '0deg';
+                    const phi = orbitParts[1] || '75deg';
+
+                    viewer.cameraOrbit = `${theta} ${phi} ${radius.toFixed(2)}m`;
+                    zoomIn = !zoomIn;
+                };
+
+                // Scroll-to-zoom
+                viewer.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    radius += e.deltaY * 0.01;
+                    radius = Math.max(2, Math.min(radius, 100));
+
+                    const orbitParts = viewer.cameraOrbit.split(' ');
+                    const theta = orbitParts[0] || '0deg';
+                    const phi = orbitParts[1] || '75deg';
+
+                    viewer.cameraOrbit = `${theta} ${phi} ${radius.toFixed(2)}m`;
+                }, { passive: false });
+
+                // Double-tap to zoom (mobile)
+                viewer.addEventListener('touchend', (e) => {
+                    const now = new Date().getTime();
+                    if (now - lastTap < 300) {
+                        e.preventDefault();
+                        applyZoom();
+                    }
+                    lastTap = now;
+                });
+            });
         </script>
+
+
 
 
     </body>
