@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Scroll-Based Intro Animation</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #00a651;
+                font-family: 'Inter', Helvetica, Arial, sans-serif;
+                font-weight: 400;
+                height: 100%;
+                overflow: hidden;
+                color: white;
+                -webkit-font-smoothing: antialiased;
+                text-rendering: optimizeLegibility;
+            }
+
+            .container {
+                height: 100vh;
+                overflow-y: auto;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                position: relative;
+            }
+
+            .spacer {
+                height: 5000px;
+            }
+
+            .fixed-layer {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                width: 100%;
+                pointer-events: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                perspective: 1000px;
+                z-index: 100;
+                flex-direction: column;
+            }
+
+            .word {
+                font-size: 4rem;
+                position: absolute;
+                opacity: 0;
+                transform: scale(0.5) translateZ(0);
+                z-index: 2;
+                will-change: transform, opacity;
+            }
+
+            #word4 {
+                z-index: 2;
+            }
+
+            #droplet {
+                width: 100;
+                height: 125;
+                position: absolute;
+                z-index: 1;
+                opacity: 0;
+                transform-origin: center center;
+                filter: drop-shadow(0 0 0px #fff);
+                image-rendering: auto;
+                shape-rendering: geometricPrecision;
+                will-change: transform, opacity;
+            }
+
+            #droplet text {
+                font-family: Arial, sans-serif;
+                font-size: 10px;
+                fill: black;
+                text-anchor: middle;
+            }
+
+            #ripple {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                border: 2px solid rgba(255, 255, 255, 0.5);
+                border-radius: 50%;
+                opacity: 0;
+                z-index: 0;
+                top: 10px;
+                filter: blur(2px);
+                will-change: transform, opacity;
+            }
+
+            nav {
+                background: #222;
+                padding: 1em;
+                display: flex;
+                flex-wrap: wrap;
+                /* allow wrap on small screens */
+                gap: 1em;
+                justify-content: center;
+            }
+
+            nav a {
+                color: #0bf;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            @media (max-width: 768px) {
+                nav {
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                }
+
+                nav a {
+                    display: block;
+                    margin: 0.25em 0;
+                }
+
+                .word {
+                    font-size: 2.2rem;
+                }
+
+                #droplet {
+                    width: 70px;
+                    height: 90px;
+                }
+
+                #droplet text {
+                    font-size: 7px;
+                }
+
+                #ripple {
+                    width: 70px;
+                    height: 70px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav>
+            <a href="old.html">V1</a>
+            <a href="Fade_as_scrollV2.html">Fade ScrollV2</a>
+        </nav>
+
+        <div class="container" id="scroll-container">
+            <div class="fixed-layer">
+                <div id="word1" class="word">Something</div>
+                <div id="word2" class="word">big</div>
+                <div id="word3" class="word">is about to</div>
+                <div id="word4" class="word">drop</div>
+
+                <svg id="droplet" width="100" height="125" viewBox="0 0 64 80"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#ffffff"
+                        d="M32 0C32 0 4 40 4 56C4 70.3594 16.6406 80 32 80C47.3594 80 60 70.3594 60 56C60 40 32 0 32 0Z" />
+                    <text id="droplitText" x="32" y="48" text-anchor="middle"
+                        dominant-baseline="middle">droplit</text>
+                </svg>
+
+                <div id="ripple"></div>
+            </div>
+            <div class="spacer"></div>
+        </div>
+
+        <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+        <script
+            src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+        <script>
+            gsap.registerPlugin(ScrollTrigger);
+
+            let tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".spacer",
+                    scroller: "#scroll-container",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true
+                }
+            });
+
+            tl.to("#word1", { opacity: 1, scale: 1, duration: 1 })
+                .to("#word1", { opacity: 0, scale: 0.5, duration: 0.5 })
+                .to("#word2", { opacity: 1, scale: 1, duration: 1 })
+                .to("#word2", { opacity: 0, scale: 0.5, duration: 0.5 })
+                .to("#word3", { opacity: 1, scale: 1, duration: 1 })
+                .to("#word3", { opacity: 0, scale: 0.5, duration: 0.5 })
+                .to("#word4", { opacity: 1, scale: 1, duration: 1 })
+                .to("#word4", { opacity: 0.5, duration: 0.3 })
+                .to("#droplet", { opacity: 1, duration: 0.2 }, "<")
+                .to("#droplet", { y: 0, scaleY: 1.2, scaleX: 0.8, duration: 0.5 })
+                .to("#droplet", { scaleY: 0.7, scaleX: 1.3, filter: "drop-shadow(0 0 20px white)", duration: 0.3 }, ">")
+                .to("#droplitText", {
+                    scale: 1.3,
+                    transformOrigin: "center",
+                    duration: 0.3,
+                    ease: "elastic.out(1, 0.4)"
+                }, "<")
+                .to("#droplet", {
+                    scale: 10,
+                    y: 100,
+                    filter: "drop-shadow(0 0 0px white)",
+                    duration: 1.2
+                })
+                .to("#word4", { opacity: 0, duration: 0.2 }, "<")
+                .to("#ripple", {
+                    scale: 5,
+                    opacity: 0.4,
+                    duration: 0.5,
+                    ease: "power1.out"
+                }, "<")
+                .to("#ripple", {
+                    opacity: 0,
+                    duration: 0.5
+                }, "-=0.3");
+
+            // Fix blurry SVG by forcing a re-render after load
+            window.addEventListener("load", () => {
+                const droplet = document.getElementById("droplet");
+                droplet.style.transform += " scale(1.001)";
+                setTimeout(() => {
+                    droplet.style.transform = droplet.style.transform.replace(" scale(1.001)", "");
+                }, 50);
+            });
+        </script>
+    </body>
+
+</html>
